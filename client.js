@@ -18,7 +18,7 @@ args.forEach((arg, index) => {
 
 // If options are not supplied, set sane defaults
 if (!host) {
-  host = '127.0.0.1 ';
+  host = '127.0.0.1';
 }
 if (!port) {
   port = 3000;

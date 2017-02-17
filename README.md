@@ -29,9 +29,9 @@ Run `node client.js` on the machine you wish to use as the client.
 Use the following command line arguments to customize its settings:
 
 * `--server-ip` - Set a string representing the IPv6 or IPv4 server hostname.
-  ('0.0.0.0' by default, allowing all IPv4 hostnames)
+  ('127.0.0.1' by default)
 * `--server-path` - Set a path to connect to for each test.
-  ('*' by default, allowing all paths)
+  ('/' by default)
 * `--server-port` - Set the port the server is listening on.
   (3000 by default)
   

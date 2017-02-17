@@ -1,10 +1,9 @@
 const crypto = require('crypto');
 const http = require('http');
-
-let host, path, port;
-let randomData = crypto.randomBytes(1024*1024*10);
+const randomData = crypto.randomBytes(1024 * 1024 * 10);
 
 // Set the host and port if supplied
+let host, path, port;
 let args = process.argv;
 args.forEach((arg, index) => {
   if (arg === '--server-ip' && index < args.length - 1) {
@@ -39,11 +38,11 @@ console.log('Host: ' + host);
 console.log('Port: ' + port);
 console.log('Path: ' + path);
 
+// Begin test
 testDownload();
 
-// Function definitions
+// Makes a request and tracks the download speed per second
 function testDownload() {
-  // Make a request and track the download speed
   console.log('Testing download speed...');
   http.get(options, (res) => {
     let oldSize = 0;
@@ -54,6 +53,8 @@ function testDownload() {
       console.log('Error downloading! Please check your connection information.');
     });
 
+    // Each time data is received, the total amount of data since the last second is measured.
+    // After one second, the counters are reset and the current speed is reported.
     res.on('data', (data) => {
       newSize += data.length;
       let currentTime = new Date().getTime();
@@ -65,12 +66,12 @@ function testDownload() {
       }
     });
 
-    // Estimate the final download speed based on the time passed
+    // When the connection is finished, the final download speed based on the time passed
     res.on('end', () => {
       let currentTime = new Date().getTime();
       let finalTime = currentTime - baseTime;
       let finalSize = newSize - oldSize;
-      let finalSpeed = (finalSize) / (finalTime/1000);
+      let finalSpeed = (finalSize) / (finalTime / 1000);
       console.log('Download size: ' + newSize * 8 + ' bits');
       console.log('Download speed: ' + Math.round(finalSpeed * 8) + ' bits/sec');
       testUpload();
@@ -93,8 +94,8 @@ function testUpload() {
   req.end(randomData, () => {
     let currentTime = new Date().getTime();
     let finalTime = currentTime - baseTime;
-    let finalSpeed = (1024*1024*10) / (finalTime/1000);
-    console.log('Upload size: ' + (1024*1024*10*8) + ' bits');
+    let finalSpeed = (1024 * 1024 * 10) / (finalTime / 1000);
+    console.log('Upload size: ' + (1024 * 1024 * 10 * 8) + ' bits');
     console.log('Upload speed: ' + Math.round(finalSpeed * 8) + ' bits/sec');
   });
 }
